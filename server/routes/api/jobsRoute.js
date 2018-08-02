@@ -32,6 +32,12 @@ router.get("/jobs/:id", (req, res, next) => {
 
 // CREATED A SINGLE JOB
 router.post("/jobs/create", (req, res, next) => {
+  if (!req.user) {
+    res.status(401).json({
+      message: "dude you have to login in order to add a new job aplication  "
+    });
+    return;
+  }
   const {
     name,
     position,
@@ -61,6 +67,15 @@ router.post("/jobs/create", (req, res, next) => {
 //UPDATE A SINGLE JOB
 
 router.post("/jobs/:id/update", (req, res, next) => {
+  if (!req.user) {
+    res
+      .status(401)
+      .json({
+        message:
+          "dude you have to login in oreder to modify any joba aplication"
+      });
+    return;
+  }
   Jobs.findByIdAndUpdate(req.params.id, {
     name: req.body.name,
     contact: req.body.contact,

@@ -37,7 +37,6 @@ authRoutes.post("/signup", (req, res, next) => {
 
       req.login(theUser, err => {
         if (err) {
-          console.log(err);
           res.status(500).json({ message: "Something went wrong" });
           return;
         }
@@ -57,24 +56,22 @@ authRoutes.post("/login", (req, res, next) => {
       return;
     }
 
-    if (!user) {
-      res.status(401).json({
-        message: "something went wrong with the server check your routes"
-      });
+    if (!theUser) {
+      res.status(401).json(failureDetails);
       return;
     }
 
-    req.login(user, err => {
+    req.login(theUser, err => {
       if (err) {
         res.status(500).json({ message: "Something went wrong" });
         return;
       }
 
+      // We are now logged in (notice req.user)
       res.status(200).json(req.user);
     });
   })(req, res, next);
 });
-
 authRoutes.post("/logout", (req, res, next) => {
   req.logout();
   res.status(200).json({ message: "see ya, Mah Dude" });
