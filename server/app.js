@@ -98,4 +98,8 @@ app.use("/api", contasctsRoutes);
 const notesRoutes = require("./routes/api/notesRoute");
 app.use("/api", notesRoutes);
 
+// app.use(function(req, res) {
+//   res.sendfile(__dirname + '/public/index.html');
+// });
+
 module.exports = app;

@@ -8,8 +8,8 @@ const jobSchema = new Schema({
   phoneNum: Number,
   notes: [
     {
-      content: String,
-      tittle: String
+      tittle: String,
+      content: String
     }
   ],
   contacts: [
