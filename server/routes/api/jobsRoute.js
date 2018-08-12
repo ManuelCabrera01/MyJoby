@@ -7,8 +7,6 @@ router.get("/jobs", (req, res, next) => {
   Jobs.find()
     .sort({ date: -1 })
     // UNCOMMENTS this two dude after you create your  notes and contatcs
-    // .populate(notes)
-    // .populate(Conatacts)
     .then(allTheJobs => {
       res.json(allTheJobs);
     })
@@ -68,12 +66,9 @@ router.post("/jobs/create", (req, res, next) => {
 
 router.post("/jobs/:id/update", (req, res, next) => {
   if (!req.user) {
-    res
-      .status(401)
-      .json({
-        message:
-          "dude you have to login in oreder to modify any joba aplication"
-      });
+    res.status(401).json({
+      message: "dude you have to login in oreder to modify any joba aplication"
+    });
     return;
   }
   Jobs.findByIdAndUpdate(req.params.id, {
