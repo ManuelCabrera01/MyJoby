@@ -4,9 +4,13 @@ const passport = require("passport");
 const bcrypt = require("bcrypt");
 const User = require("../../models/user");
 
+// @route  POST ‘api/signup'
+// @desct  create users
+// @access.  public
 authRoutes.post("/signup", (req, res, next) => {
   const username = req.body.username;
   const password = req.body.password;
+  const email = req.body.email;
 
   if (!username || !password) {
     res.status(400).json({ message: "Provide username and password" });
@@ -47,6 +51,9 @@ authRoutes.post("/signup", (req, res, next) => {
   });
 });
 
+// @route  POST ‘api/login'
+// @desct  allow access to the user
+// @access.  public
 authRoutes.post("/login", (req, res, next) => {
   passport.authenticate("local", (err, theUser, failureDetails) => {
     if (err) {
@@ -72,25 +79,13 @@ authRoutes.post("/login", (req, res, next) => {
     });
   })(req, res, next);
 });
+
+// @route  POST ‘api/logout'
+// @desct  logs user out
+// @access.  public
 authRoutes.post("/logout", (req, res, next) => {
   req.logout();
   res.status(200).json({ message: "see ya, Mah Dude" });
-});
-authRoutes.get("/loggedin", (req, res, next) => {
-  if (req.user) {
-    res.status(200).json(req.user);
-    return;
-  }
-  res.status(403).json({ message: "you need to login first" });
-});
-
-authRoutes.get("/private", (req, res, next) => {
-  if (req.isAuthenticated()) {
-    res.json({ message: "This is a private message" });
-    return;
-  }
-
-  res.status(403).json({ message: "you are not authorize " });
 });
 
 module.exports = authRoutes;

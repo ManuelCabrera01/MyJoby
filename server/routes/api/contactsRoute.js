@@ -2,6 +2,9 @@ const express = require("express");
 const router = express.Router();
 const Jobs = require("../../models/job");
 
+// @route  POST ‘api/example’
+// @desct  create users
+// @access.  public
 router.post("/jobs/:id/contacts/create", (req, res, next) => {
   if (!req.user) {
     res

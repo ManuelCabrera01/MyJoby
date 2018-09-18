@@ -14,8 +14,8 @@ router.get("/jobs", (req, res, next) => {
       res.json(err);
     });
 });
-//SINGLE JOB POPULATED WITH ITS OWN CONTACTS
 
+//SINGLE JOB POPULATED WITH ITS OWN CONTACTS
 router.get("/jobs/:id", (req, res, next) => {
   const id = req.params.id;
   Jobs.findById(id)
