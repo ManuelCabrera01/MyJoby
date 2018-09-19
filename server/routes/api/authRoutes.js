@@ -28,7 +28,8 @@ authRoutes.post("/signup", (req, res, next) => {
 
     const theUser = new User({
       username: username,
-      password: hashPass
+      password: hashPass,
+      email: email
     });
 
     theUser.save(err => {
