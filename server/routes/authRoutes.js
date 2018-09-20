@@ -81,14 +81,16 @@ router.post("/login", (req, res, next) => {
       }
 
       // We are now logged in (notice req.user)
-      res.status(200).render("/", { theUser: req.user }, console.log("nice"));
+      res
+        .status(200)
+        .render("/profile", { theUser: req.user }, console.log("nice"));
     });
   })(req, res, next);
 });
 
 // @route  POST ‘/logout'
 // @desct  logs users out
-// @access.  public
+// @access.  private
 router.get("/logout", (req, res, next) => {
   req.logout();
   res.redirect("/login");
