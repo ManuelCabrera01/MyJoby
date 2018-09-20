@@ -5,7 +5,11 @@ const router = express.Router();
 // @desct  display user information
 // @access.  private
 router.get("/profile", (req, res, next) => {
-  res.render("usesV/profile");
+  if (req.session.currentUser) {
+    res.render("usesV/profile");
+  } else {
+    res.redirect("/login");
+  }
 });
 
 module.exports = router;

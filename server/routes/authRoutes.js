@@ -60,40 +60,43 @@ router.get("/login", (req, res, next) => {
 // @route  POST ‘/login'
 // @desct  allow access to the user
 // @access.  public
-router.post("/login", (req, res, next) => {
-  passport.authenticate("local", (err, theUser, failureDetails) => {
-    if (err) {
-      res
-        .status(500)
-        .json({ message: "there is no user register under that name" });
-      return;
-    }
+authRoutes.post("/login", (req, res, next) => {
+  const username = req.body.username;
+  const password = req.body.password;
 
-    if (!theUser) {
-      res.status(401).json(err);
-      return;
-    }
-
-    req.login(theUser, err => {
-      if (err) {
-        res.status(500).json({ message: "your database is fuck dude" });
-        return;
-      }
-
-      // We are now logged in (notice req.user)
-      res
-        .status(200)
-        .render("/profile", { theUser: req.user }, console.log("nice"));
+  if (username === "" || password === "") {
+    res.render("auth/login", {
+      errorMessage: "Indicate a username and a password to log in"
     });
-  })(req, res, next);
+    return;
+  }
+
+  User.findOne({ username: username }, (err, user) => {
+    if (err || !user) {
+      res.render("auth/login", {
+        errorMessage: "The username doesn't exist"
+      });
+      return;
+    }
+    if (bcrypt.compareSync(password, user.password)) {
+      // Save the login in the session!
+      req.session.currentUser = user;
+      res.redirect("/");
+    } else {
+      res.render("auth/login", {
+        errorMessage: "Incorrect password"
+      });
+    }
+  });
 });
 
 // @route  POST ‘/logout'
 // @desct  logs users out
 // @access.  private
-router.get("/logout", (req, res, next) => {
-  req.logout();
-  res.redirect("/login");
+authRoutes.get("/logout", (req, res, next) => {
+  req.session.destroy(err => {
+    res.redirect("/login");
+  });
 });
 
 module.exports = router;
