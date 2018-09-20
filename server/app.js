@@ -16,10 +16,11 @@ const LocalStrategy = require("passport-local").Strategy;
 const MongoStore = require("connect-mongo")(session);
 //npm install --save connect-flash
 const flash = require("connect-flash");
+const User = require("./models/user");
 
 mongoose
   .connect(
-    "mongodb://localhost/server",
+    "mongodb://localhost/myJoby",
     { useNewUrlParser: true }
   )
   .then(x => {
@@ -119,7 +120,7 @@ app.use("/", authRoutes);
 // const notesRoutes = require("./routes/notesRoutes");
 // app.use("/", notesRoutes);
 
-// const profileRoutes = require("./routes/profileRoutes");
-// app.use("/", profileRoutes);
+const profileRoutes = require("./routes/profileRoutes");
+app.use("/", profileRoutes);
 
 module.exports = app;

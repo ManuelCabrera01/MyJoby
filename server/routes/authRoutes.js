@@ -3,6 +3,7 @@ const router = express.Router();
 const passport = require("passport");
 const bcrypt = require("bcrypt");
 const User = require("../models/user");
+const bcryptSalt = 10;
 
 // @route  GET ‘/signup'
 // @desct  create users
@@ -17,17 +18,18 @@ router.get("/signup", (req, res, next) => {
 router.post("/signup", (req, res, next) => {
   const username = req.body.username;
   const password = req.body.password;
+  const email = req.body.email;
 
   if (username === "" || password === "") {
     req.flash("error", "please specify a username and password to sign up");
-    res.render("userViews/signup", { message: req.flash("error") });
+    res.render("userV/signup", { message: req.flash("error") });
     return;
   }
 
   User.findOne({ username })
     .then(user => {
       if (user !== null) {
-        res.render("userViews/signup", { message: req.flash("error") });
+        res.render("userV/signup", { message: req.flash("error") });
         return;
       }
 
@@ -36,10 +38,11 @@ router.post("/signup", (req, res, next) => {
 
       User.create({
         username: username,
-        password: hashPass
+        password: hashPass,
+        email: email
       })
         .then(response => {
-          res.redirect("/");
+          res.redirect("/profile");
         })
         .catch(err => {
           res.render("usersV/signup");
@@ -54,46 +57,28 @@ router.post("/signup", (req, res, next) => {
 // @desct  display view
 // @access.  public
 router.get("/login", (req, res, next) => {
-  res.render("userViews/login", { message: req.flash("error") });
+  res.render("usersV/logIn", { message: req.flash("error") });
 });
 
 // @route  POST ‘/login'
 // @desct  allow access to the user
 // @access.  public
-authRoutes.post("/login", (req, res, next) => {
-  const username = req.body.username;
-  const password = req.body.password;
+router.post(
+  "/login",
+  passport.authenticate("local", {
+    successRedirect: "/profile",
+    failureRedirect: "/login",
+    failureFlash: true,
+    successFlash: true,
+    passReqToCallback: true
+  })
+  // console.log()
+);
 
-  if (username === "" || password === "") {
-    res.render("auth/login", {
-      errorMessage: "Indicate a username and a password to log in"
-    });
-    return;
-  }
-
-  User.findOne({ username: username }, (err, user) => {
-    if (err || !user) {
-      res.render("auth/login", {
-        errorMessage: "The username doesn't exist"
-      });
-      return;
-    }
-    if (bcrypt.compareSync(password, user.password)) {
-      // Save the login in the session!
-      req.session.currentUser = user;
-      res.redirect("/");
-    } else {
-      res.render("auth/login", {
-        errorMessage: "Incorrect password"
-      });
-    }
-  });
-});
-
-// @route  POST ‘/logout'
+// @route  GET ‘/logout'
 // @desct  logs users out
 // @access.  private
-authRoutes.get("/logout", (req, res, next) => {
+router.get("/logout", (req, res, next) => {
   req.session.destroy(err => {
     res.redirect("/login");
   });
