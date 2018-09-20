@@ -10,6 +10,9 @@ const logger = require("morgan");
 const path = require("path");
 // npm install --save express-session connect-mongo
 const session = require("express-session");
+const bcrypt = require("bcryptjs");
+const passport = require("passport");
+const LocalStrategy = require("passport-local").Strategy;
 const MongoStore = require("connect-mongo")(session);
 //npm install --save connect-flash
 const flash = require("connect-flash");
