@@ -1,61 +1,66 @@
 const express = require("express");
-const authRoutes = express.Router();
+const router = express.Router();
 const passport = require("passport");
 const bcrypt = require("bcrypt");
-const User = require("../../models/user");
+const User = require("../models/user");
 
-// @route  POST ‘api/signup'
+// @route  GET ‘/signup'
 // @desct  create users
 // @access.  public
-authRoutes.post("/signup", (req, res, next) => {
+router.get("/signup", (req, res, next) => {
+  res.render("userV/signup");
+});
+
+// @route  POST ‘/signup'
+// @desct  create users
+// @access.  public
+router.post("/signup", (req, res, next) => {
   const username = req.body.username;
   const password = req.body.password;
-  const email = req.body.email;
 
-  if (!username || !password) {
-    res.status(400).json({ message: "Provide username and password" });
+  if (username === "" || password === "") {
+    req.flash("error", "please specify a username and password to sign up");
+    res.render("userViews/signup", { message: req.flash("error") });
     return;
   }
 
-  User.findOne({ username }, "_id", (err, foundUser) => {
-    if (foundUser) {
-      res.status(400).json({ message: "The username already exists" });
-      return;
-    }
-
-    const salt = bcrypt.genSaltSync(10);
-    const hashPass = bcrypt.hashSync(password, salt);
-
-    const theUser = new User({
-      username: username,
-      password: hashPass,
-      email: email
-    });
-
-    theUser.save(err => {
-      if (err) {
-        console.log(err);
-        res.status(400).json({ message: "Something went wrong" });
-
+  User.findOne({ username })
+    .then(user => {
+      if (user !== null) {
+        res.render("userViews/signup", { message: req.flash("error") });
         return;
       }
 
-      req.login(theUser, err => {
-        if (err) {
-          res.status(500).json({ message: "Something went wrong" });
-          return;
-        }
+      const salt = bcrypt.genSaltSync(bcryptSalt);
+      const hashPass = bcrypt.hashSync(password, salt);
 
-        res.status(200).json(req.user);
-      });
+      User.create({
+        username: username,
+        password: hashPass
+      })
+        .then(response => {
+          res.redirect("/");
+        })
+        .catch(err => {
+          res.render("usersV/signup");
+        });
+    })
+    .catch(error => {
+      next(error);
     });
-  });
 });
 
-// @route  POST ‘api/login'
+// @route  GET ‘/login'
+// @desct  display view
+// @access.  public
+router.get("/login", (req, res, next) => {
+  res.render("userViews/login", { message: req.flash("error") });
+});
+
+// @route  POST ‘/login'
 // @desct  allow access to the user
 // @access.  public
-authRoutes.post("/login", (req, res, next) => {
+router.post("/login", (req, res, next) => {
   passport.authenticate("local", (err, theUser, failureDetails) => {
     if (err) {
       res
@@ -76,18 +81,17 @@ authRoutes.post("/login", (req, res, next) => {
       }
 
       // We are now logged in (notice req.user)
-      res.status(200).json(req.user);
+      res.status(200).render("/", { theUser: req.user }, console.log("nice"));
     });
   })(req, res, next);
 });
 
-// @route  POST ‘api/logout'
-// @desct  logs user out
+// @route  POST ‘/logout'
+// @desct  logs users out
 // @access.  public
-authRoutes.post("/logout", (req, res, next) => {
+router.get("/logout", (req, res, next) => {
   req.logout();
-  res.status(200).json({ message: "see ya, Mah Dude" });
+  res.redirect("/login");
 });
 
-module.exports = authRoutes;
-// ///////
+module.exports = router;

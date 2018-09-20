@@ -59,13 +59,13 @@ app.use("/", index);
 const authRoutes = require("./routes/authRoutes");
 app.use("/", authRoutes);
 
-const contactsRoutes = require("./routes/contactsRoutes");
-app.use("/", contactsRoutes);
+// const contactsRoutes = require("./routes/contactsRoutes");
+// app.use("/", contactsRoutes);
 
-const jobsRoutes = require("./routes/jobsRoutes");
-app.use("/", jobsRoutes);
+// const jobsRoutes = require("./routes/jobsRoutes");
+// app.use("/", jobsRoutes);
 
-const notesRoutes = require("./routes/notesRoutes");
-app.use("/", notesRoutes);
+// const notesRoutes = require("./routes/notesRoutes");
+// app.use("/", notesRoutes);
 
 module.exports = app;
