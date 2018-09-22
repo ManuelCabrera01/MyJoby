@@ -48,7 +48,7 @@ router.post("/signup", uploadCloud.single("photo"), (req, res, next) => {
       })
         .then(response => {
           console.log(response);
-          res.render("usersV/profile"), { user: response };
+          res.render("usersV/login"), { user: response };
         })
         .catch(err => {
           res.render("usersV/signup");

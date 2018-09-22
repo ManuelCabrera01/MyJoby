@@ -20,4 +20,43 @@ router.get("/profile", (req, res, next) => {
   }
 });
 
+// @route  PUT ‘/profile'
+// @desct  edit the info
+// @access.  private
+router.put("/profile/edit", (req, res, next) => {
+  const theid = req.params.id;
+
+  User.findByIdAndUpdate(theid, {
+    username: username.req.body,
+    email: email.req.body,
+    resume: resume.req.body,
+    coverLetter: coverLetter.req.body,
+    followUpEmail: followUpEmail.req.body,
+    username: username.req.body,
+    password: hashPass.req.body
+  })
+    .then(response => {
+      res.render("usersV/profile");
+    })
+    .catch(err => {
+      console.log(err);
+    });
+
+  res.redirect("/login");
+});
+
+// @route  DELETE ‘/profile'
+// @desct  edit the info
+// @access.  private
+router.delete("/profile/delete/id", (req, res, next) => {
+  const theid = req.params.id;
+  User.findByIdAndRemove(theid)
+    .then(response => {
+      res.redirect("/signup");
+    })
+    .catch(err => {
+      next(err);
+    });
+});
+
 module.exports = router;
