@@ -1,0 +1,108 @@
+<div class="container-fluid">
+    {{!-- navbar --}}
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">MyJoby</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse navbar-collapse" id="rtNavbar">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/profile">Profile</a></li>
+                    <li><a href="/jobs">Jobs</a></li>
+                    <li><a href="/logout">Logout</a></li>
+                    <form class="navbar-form navbar-right">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search">
+                        </div>
+                        <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search" aria-hidden="true"
+                            /></button>
+                    </form>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    {{!-- navbar --}} {{!-- list of jobs --}}
+    <div class="row">
+
+        <h1> Jobs you have apply</h1>
+
+        <div class="row">
+            <div class="col-md-4">
+                <form action="/jobs/add">
+
+                    <label>company</label>
+                    <input type="text" name="company">
+
+                    <label>Description</label>
+                    <input type="text" name="companyDescritions">
+
+                    <label>Aplication date</label>
+                    <input type="text" name="applicationDate">
+
+
+                    <label>Position</label>
+                    <input type="text" name="position">
+
+
+            </div>
+            <div class="col-md-4"></div>
+            <label>location</label>
+            <input type="text" name="location">
+
+            <label> Position Description</label>
+            <input type="text" name="positionDescriptions">
+
+            <label>Phone #</label>
+            <input type="text" name="phoneNum">
+            <input type="submit" value="SAVE">
+            </form>
+        </div>
+    </div>
+
+
+</div>
+<div class="row">
+    <div class="col-md-4">
+        {{#each theList}}
+        <p>Company</p>
+        <p>{{this.company}}</p>
+        <br>
+        <p>Description</p>
+        <p>{{this.companyDescritions}}</p>
+        <br>
+        <p>Aplication date</p>
+        <p>{{this.applicationDate}}</p>
+        <br>
+        <p>position</p>
+        <p>{{this.position}}</p>
+        <br>
+    </div>
+    <div class="col-md-4">
+        <p>Location</p>
+        <p>{{this.location}}</p>
+        <br>
+        <p>Position description</p>
+        <p>{{this.positionDescriptions}}</p>
+        <br>
+        <p>Phone #</p>
+        <p>{{this.phoneNum}}</p>
+        <hr>
+        <br>
+        <button href="#">Contact</button>
+        <button href="#">Notes</button>
+
+        <br> {{/each}}
+    </div>
+</div>
+
+</div>

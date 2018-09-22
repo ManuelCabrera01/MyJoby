@@ -114,13 +114,13 @@ app.use("/", authRoutes);
 // const contactsRoutes = require("./routes/contactsRoutes");
 // app.use("/", contactsRoutes);
 
-// const jobsRoutes = require("./routes/jobsRoutes");
-// app.use("/", jobsRoutes);
+const profileRoutes = require("./routes/profileRoutes");
+app.use("/", profileRoutes);
+
+const jobsRoutes = require("./routes/jobsRoutes");
+app.use("/", jobsRoutes);
 
 // const notesRoutes = require("./routes/notesRoutes");
 // app.use("/", notesRoutes);
-
-const profileRoutes = require("./routes/profileRoutes");
-app.use("/", profileRoutes);
 
 module.exports = app;
