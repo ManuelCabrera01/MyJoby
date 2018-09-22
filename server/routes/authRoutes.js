@@ -4,21 +4,25 @@ const passport = require("passport");
 const bcrypt = require("bcrypt");
 const User = require("../models/user");
 const bcryptSalt = 10;
+const uploadCloud = require("../config/cloudinary.js");
 
 // @route  GET ‘/signup'
 // @desct  create users
 // @access.  public
-router.get("/signup", (req, res, next) => {
-  res.render("userV/signup");
+router.get("/signup", uploadCloud.single("photo"), (req, res, next) => {
+  res.render("usersV/signup");
 });
 
 // @route  POST ‘/signup'
 // @desct  create users
 // @access.  public
-router.post("/signup", (req, res, next) => {
+router.post("/signup", uploadCloud.single("photo"), (req, res, next) => {
   const username = req.body.username;
   const password = req.body.password;
   const email = req.body.email;
+  const imgPath = req.file.url;
+  const imgName = req.file.originalname;
+  const uploadCloud = require("../config/cloudinary.js");
 
   if (username === "" || password === "") {
     req.flash("error", "please specify a username and password to sign up");
@@ -39,7 +43,9 @@ router.post("/signup", (req, res, next) => {
       User.create({
         username: username,
         password: hashPass,
-        email: email
+        email: email,
+        imgName: imgName,
+        imgPath: imgPath
       })
         .then(response => {
           res.redirect("/profile");

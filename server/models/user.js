@@ -5,8 +5,10 @@ const userSchema = new Schema({
   username: String,
   password: String,
   resume: String,
-  email: String,
-  jobs: [{ type: Schema.Types.ObjectId, ref: "Jobs" }]
+  path: String,
+  jobs: [{ type: Schema.Types.ObjectId, ref: "Jobs" }],
+  originalName: String,
+  email: String
 });
 
 const User = mongoose.model("User", userSchema);

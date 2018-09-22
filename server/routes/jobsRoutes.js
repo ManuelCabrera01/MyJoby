@@ -26,18 +26,27 @@ router.post("/jobs/add", ensureLogin.ensureLoggedIn, (req, res, next) => {
     phoneNum,
     notes
   });
-
-  job
-    .create(newJob)
-    .then(response => {
-      console.log(response);
-    })
-    .catch(err => {
-      console.log(err);
-    });
+  if (req.user._id) {
+    job
+      .create(newJob)
+      .then(response => {
+        console.log(response);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  } else {
+    es.redirect("/login");
+  }
 });
 module.exports = router;
 
 router.get("/bojs", ensureLogin.ensureLoggedIn, (req, res, next) => {
-  Job.find().then(response => {});
+  Job.find()
+    .then(response => {
+      console.log(response);
+    })
+    .catch(() => {})
+    .then(response => {})
+    .catch(() => {});
 });
