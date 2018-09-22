@@ -22,18 +22,17 @@ router.post("/signup", uploadCloud.single("photo"), (req, res, next) => {
   const email = req.body.email;
   const imgPath = req.file.url;
   const imgName = req.file.originalname;
-  const uploadCloud = require("../config/cloudinary.js");
 
   if (username === "" || password === "") {
     req.flash("error", "please specify a username and password to sign up");
-    res.render("userV/signup", { message: req.flash("error") });
+    res.render("usersV/signup", { message: req.flash("error") });
     return;
   }
 
   User.findOne({ username })
     .then(user => {
       if (user !== null) {
-        res.render("userV/signup", { message: req.flash("error") });
+        res.render("usersV/signup", { message: req.flash("error") });
         return;
       }
 
@@ -48,7 +47,8 @@ router.post("/signup", uploadCloud.single("photo"), (req, res, next) => {
         imgPath: imgPath
       })
         .then(response => {
-          res.redirect("/profile");
+          console.log(response);
+          res.render("usersV/profile"), { user: response };
         })
         .catch(err => {
           res.render("usersV/signup");

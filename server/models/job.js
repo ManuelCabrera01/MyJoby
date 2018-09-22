@@ -5,9 +5,8 @@ const Contacts = require("./contact");
 
 const jobSchema = new Schema({
   company: String,
-  companyDescritions: String,
+  companyDescriptions: String,
   contacts: String,
-  date: Date,
   position: String,
   location: String,
   positionDescriptions: String,

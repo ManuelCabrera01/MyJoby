@@ -5,7 +5,8 @@ const userSchema = new Schema({
   username: String,
   password: String,
   resume: String,
-  path: String,
+  imgName: String,
+  imgPath: String,
   jobs: [{ type: Schema.Types.ObjectId, ref: "Jobs" }],
   originalName: String,
   email: String

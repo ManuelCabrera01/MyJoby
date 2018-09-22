@@ -36,15 +36,18 @@
 
         <h1> Jobs you have apply</h1>
 
+
         <div class="row">
             <div class="col-md-4">
-                <form action="/jobs/add">
+
+
+                <form method="post" action="/create">
 
                     <label>company</label>
                     <input type="text" name="company">
 
                     <label>Description</label>
-                    <input type="text" name="companyDescritions">
+                    <input type="text" name="companyDescriptions">
 
                     <label>Aplication date</label>
                     <input type="text" name="applicationDate">
@@ -64,6 +67,7 @@
 
             <label>Phone #</label>
             <input type="text" name="phoneNum">
+            <br>
             <input type="submit" value="SAVE">
             </form>
         </div>
@@ -98,8 +102,8 @@
         <p>{{this.phoneNum}}</p>
         <hr>
         <br>
-        <button href="#">Contact</button>
-        <button href="#">Notes</button>
+        <button href="addcontanct/{{this.id}}">Contact</button>
+        <button href="addnote/{{this.id}}">Notes</button>
 
         <br> {{/each}}
     </div>
