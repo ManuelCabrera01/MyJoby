@@ -52,6 +52,7 @@ router.delete("/profile/delete/id", (req, res, next) => {
   const theid = req.params.id;
   User.findByIdAndRemove(theid)
     .then(response => {
+      console.log(response);
       res.redirect("/signup");
     })
     .catch(err => {
