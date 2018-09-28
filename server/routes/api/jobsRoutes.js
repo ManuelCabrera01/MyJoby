@@ -42,20 +42,21 @@ router.post("/job/add", (req, res, next) => {
 // @desct  create jobs
 // @access.  public
 
-router.delete("job/delete", (req, res, next) => {
-  const theUser = req.user;
-  if (theUser._id) {
-    const jobId = req.body.theId;
-    console.log(jobId);
-    Jobs.findByIdAndRemove(jobId)
-      .then(response => {
-        res.json(response);
-      })
-      .catch(err => {
-        res.json(err);
+router.delete("/jobs/:id", (req, res, next) => {
+  // if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+  //   res.status(400).json({ message: "Specified id is not valid" });
+  //   return;
+  // }
+
+  Job.findByIdAndRemove(req.params.id)
+    .then(() => {
+      res.json({
+        message: `Task with ${req.params.id} is removed successfully.`
       });
-  } else {
-    res.json("login");
-  }
+    })
+    .catch(err => {
+      res.json(err);
+    });
 });
+
 module.exports = router;
