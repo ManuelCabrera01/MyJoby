@@ -3,8 +3,6 @@ require("dotenv").config();
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const express = require("express");
-const favicon = require("serve-favicon");
-const hbs = require("hbs");
 const mongoose = require("mongoose");
 const logger = require("morgan");
 const path = require("path");
@@ -17,6 +15,7 @@ const MongoStore = require("connect-mongo")(session);
 //npm install --save connect-flash
 const flash = require("connect-flash");
 const User = require("./models/user");
+const cors = require("cors");
 
 mongoose
   .connect(
@@ -99,8 +98,8 @@ passport.use(
   })
 );
 
-app.set("views", path.join(__dirname, "views"));
-app.set("view engine", "hbs");
+// app.set("views", path.join(__dirname, "views"));
+// app.set("view engine", "hbs");
 app.use(express.static(path.join(__dirname, "public")));
 // app.use(
 //   favicon(
@@ -108,23 +107,27 @@ app.use(express.static(path.join(__dirname, "public")));
 //   )
 // );
 
+app.use(
+  cors({
+    credentials: true,
+    origin: ["http://localhost:3000"]
+  })
+);
+
 //ROUTES
-const index = require("./routes/index");
+const index = require("./routes/api/index");
 app.use("/api", index);
 
-const authRoutes = require("./routes/authRoutes");
+const authRoutes = require("./routes/api/authRoutes");
 app.use("/api", authRoutes);
 
 // const contactsRoutes = require("./routes/contactsRoutes");
 // app.use("/", contactsRoutes);
 
-const profileRoutes = require("./routes/profileRoutes");
+const profileRoutes = require("./routes/api/profileRoutes");
 app.use("/api", profileRoutes);
 
-const jobsRoutes = require("./routes/jobsRoutes");
+const jobsRoutes = require("./routes/api/jobsRoutes");
 app.use("/api", jobsRoutes);
-
-// const notesRoutes = require("./routes/notesRoutes");
-// app.use("/", notesRoutes);
 
 module.exports = app;

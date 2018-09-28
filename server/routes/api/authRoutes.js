@@ -1,93 +1,112 @@
 const express = require("express");
 const router = express.Router();
-const passport = require("passport");
-const bcrypt = require("bcrypt");
 const User = require("../../models/user");
-const bcryptSalt = 10;
-const uploadCloud = require("../../config/cloudinary");
-
-// @route  GET ‘/signup'
-// @desct  create users
-// @access.  public
-router.get("/signup", uploadCloud.single("photo"), (req, res, next) => {
-  res.render("usersV/signup");
-});
+const passport = require("passport");
+const bcrypt = require("bcryptjs");
 
 // @route  POST ‘/signup'
 // @desct  create users
 // @access.  public
-router.post("/signup", uploadCloud.single("photo"), (req, res, next) => {
+
+router.post("/signup", (req, res, next) => {
   const username = req.body.username;
   const password = req.body.password;
-  const email = req.body.email;
-  const imgPath = req.file.url;
-  const imgName = req.file.originalname;
 
-  if (username === "" || password === "") {
-    req.flash("error", "please specify a username and password to sign up");
-    res.render("usersV/signup", { message: req.flash("error") });
+  if (!username || !password) {
+    res.status(400).json({ message: "Provide username and password" });
     return;
   }
 
-  User.findOne({ username })
-    .then(user => {
-      if (user !== null) {
-        res.render("usersV/signup", { message: req.flash("error") });
+  if (password.length < 7) {
+    res.status(400).json({
+      message:
+        "Please make your password at least 8 characters long for security purposes."
+    });
+    return;
+  }
+
+  User.findOne({ username }, (err, foundUser) => {
+    if (err) {
+      res.status(500).json({ message: "Username check went bad." });
+      return;
+    }
+
+    if (foundUser) {
+      res.status(400).json({ message: "Username taken. Choose another one." });
+      return;
+    }
+
+    const salt = bcrypt.genSaltSync(10);
+    const hashPass = bcrypt.hashSync(password, salt);
+
+    const NewUser = new User({
+      username: username,
+      password: hashPass
+    });
+
+    NewUser.save(err => {
+      if (err) {
+        res
+          .status(400)
+          .json({ message: "Saving user to database went wrong." });
         return;
       }
 
-      const salt = bcrypt.genSaltSync(bcryptSalt);
-      const hashPass = bcrypt.hashSync(password, salt);
+      // Automatically log in user after sign up
+      // .login() here is actually predefined passport method
+      req.login(NewUser, err => {
+        if (err) {
+          res.status(500).json({ message: "Login after signup went bad." });
+          return;
+        }
 
-      User.create({
-        username: username,
-        password: hashPass,
-        email: email,
-        imgName: imgName,
-        imgPath: imgPath
-      })
-        .then(response => {
-          console.log(response);
-          res.render("usersV/login"), { user: response };
-        })
-        .catch(err => {
-          res.render("usersV/signup");
-        });
-    })
-    .catch(error => {
-      next(error);
+        // Send the user's information to the frontend
+        // We can use also: res.status(200).json(req.user);
+        res.status(200).json(aNewUser);
+      });
     });
-});
-
-// @route  GET ‘/login'
-// @desct  display view
-// @access.  public
-router.get("/login", (req, res, next) => {
-  res.render("usersV/logIn", { message: req.flash("error") });
+  });
 });
 
 // @route  POST ‘/login'
 // @desct  allow access to the user
 // @access.  public
-router.post(
-  "/login",
-  passport.authenticate("local", {
-    successRedirect: "/profile",
-    failureRedirect: "/login",
-    failureFlash: true,
-    successFlash: true,
-    passReqToCallback: true
-  })
-  // console.log()
-);
+router.post("/login", (req, res, next) => {
+  passport.authenticate("local", (err, theUser, failureDetails) => {
+    if (err) {
+      res
+        .status(500)
+        .json({ message: "Something went wrong authenticating user" });
+      return;
+    }
+
+    if (!theUser) {
+      // "failureDetails" contains the error messages
+      // from our logic in "LocalStrategy" { message: '...' }.
+      res.status(401).json(failureDetails);
+      return;
+    }
+
+    // save user in session
+    req.login(theUser, err => {
+      if (err) {
+        res.status(500).json({ message: "Session save went bad." });
+        return;
+      }
+
+      // We are now logged in (that's why we can also send req.user)
+      res.status(200).json(theUser);
+    });
+  })(req, res, next);
+});
 
 // @route  GET ‘/logout'
 // @desct  logs users out
 // @access.  private
-router.get("/logout", (req, res, next) => {
-  req.session.destroy(err => {
-    res.redirect("/login");
-  });
+router.post("/logout", (req, res, next) => {
+  // req.logout() is defined by passport
+  req.logout();
+  res.status(200).json({ message: "Log out success!" });
 });
 
 module.exports = router;

@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const Job = require("../models/job");
+const Job = require("../../models/job");
 const ensureLogin = require("connect-ensure-login");
 
 // @route  GET ‘/jobs'
