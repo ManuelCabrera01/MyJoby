@@ -38,9 +38,16 @@ router.post("/job/add", (req, res, next) => {
   }
 });
 
+// @route  PUT ‘/jobs/id'
+// @desct  update jobs
+// @access.  private
+router.put("/job/update/:id", () => {
+  Job.findByIdAndUpdate();
+});
+
 // @route  DELETE ‘/jobs/id'
-// @desct  create jobs
-// @access.  public
+// @desct  delete jobs
+// @access.  private
 
 router.delete("/jobs/:id", (req, res, next) => {
   // if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
