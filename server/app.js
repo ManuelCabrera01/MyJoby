@@ -110,19 +110,19 @@ app.use(express.static(path.join(__dirname, "public")));
 
 //ROUTES
 const index = require("./routes/index");
-app.use("/", index);
+app.use("/api", index);
 
 const authRoutes = require("./routes/authRoutes");
-app.use("/", authRoutes);
+app.use("/api", authRoutes);
 
 // const contactsRoutes = require("./routes/contactsRoutes");
 // app.use("/", contactsRoutes);
 
 const profileRoutes = require("./routes/profileRoutes");
-app.use("/", profileRoutes);
+app.use("/api", profileRoutes);
 
 const jobsRoutes = require("./routes/jobsRoutes");
-app.use("/", jobsRoutes);
+app.use("/api", jobsRoutes);
 
 // const notesRoutes = require("./routes/notesRoutes");
 // app.use("/", notesRoutes);

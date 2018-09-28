@@ -2,9 +2,9 @@ const express = require("express");
 const router = express.Router();
 const passport = require("passport");
 const bcrypt = require("bcrypt");
-const User = require("../models/user");
+const User = require("../../models/user");
 const bcryptSalt = 10;
-const uploadCloud = require("../config/cloudinary.js");
+const uploadCloud = require("../../config/cloudinary");
 
 // @route  GET ‘/signup'
 // @desct  create users
