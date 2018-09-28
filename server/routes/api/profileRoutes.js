@@ -10,10 +10,10 @@ router.get("/profile", (req, res, next) => {
   if (req.user._id) {
     User.findById(theUser._id)
       .then(response => {
-        res.render("usersV/profile", { theUserInfo: response });
+        res.json(response);
       })
       .catch(err => {
-        console.log(err);
+        res.json(err);
       });
   } else {
     res.redirect("/login");
@@ -36,7 +36,7 @@ router.put("/profile/edit", (req, res, next) => {
     password: hashPass.req.body
   })
     .then(response => {
-      res.render("usersV/profile");
+      res.json(response);
     })
     .catch(err => {
       console.log(err);
@@ -53,7 +53,7 @@ router.delete("/profile/delete/id", (req, res, next) => {
   User.findByIdAndRemove(theid)
     .then(response => {
       console.log(response);
-      res.redirect("/signup");
+      res.json(response);
     })
     .catch(err => {
       next(err);
