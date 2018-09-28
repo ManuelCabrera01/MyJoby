@@ -11,13 +11,13 @@ const bcrypt = require("bcryptjs");
 router.post("/signup", (req, res, next) => {
   const username = req.body.username;
   const password = req.body.password;
-
+  console.log(username, password);
   if (!username || !password) {
     res.status(400).json({ message: "Provide username and password" });
     return;
   }
 
-  if (password.length < 7) {
+  if (password.length < 6) {
     res.status(400).json({
       message:
         "Please make your password at least 8 characters long for security purposes."
@@ -62,7 +62,7 @@ router.post("/signup", (req, res, next) => {
 
         // Send the user's information to the frontend
         // We can use also: res.status(200).json(req.user);
-        res.status(200).json(aNewUser);
+        res.status(200).json(NewUser);
       });
     });
   });
@@ -105,6 +105,7 @@ router.post("/login", (req, res, next) => {
 // @access.  private
 router.post("/logout", (req, res, next) => {
   // req.logout() is defined by passport
+  console.log("heyyyyy");
   req.logout();
   res.status(200).json({ message: "Log out success!" });
 });

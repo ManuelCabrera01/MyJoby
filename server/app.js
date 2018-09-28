@@ -6,13 +6,11 @@ const express = require("express");
 const mongoose = require("mongoose");
 const logger = require("morgan");
 const path = require("path");
-// npm install --save express-session connect-mongo
 const session = require("express-session");
 const bcrypt = require("bcryptjs");
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const MongoStore = require("connect-mongo")(session);
-//npm install --save connect-flash
 const flash = require("connect-flash");
 const User = require("./models/user");
 const cors = require("cors");
@@ -98,14 +96,7 @@ passport.use(
   })
 );
 
-// app.set("views", path.join(__dirname, "views"));
-// app.set("view engine", "hbs");
 app.use(express.static(path.join(__dirname, "public")));
-// app.use(
-//   favicon(
-//     path.join(__dirname, "public", "images", "what_to_bring_87B_icon.ico")
-//   )
-// );
 
 app.use(
   cors({
