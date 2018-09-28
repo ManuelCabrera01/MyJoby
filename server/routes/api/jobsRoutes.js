@@ -7,7 +7,7 @@ const User = require("../../models/user");
 // @desct  create jobs
 // @access.  public
 
-router.post("/jobs", (req, res, next) => {
+router.post("/job/add", (req, res, next) => {
   const theUser = req.user;
   if (theUser._id) {
     Job.create({
@@ -34,7 +34,28 @@ router.post("/jobs", (req, res, next) => {
         res.json(err);
       });
   } else {
-    res.json("response");
+    res.json("login");
+  }
+});
+
+// @route  DELETE ‘/jobs/id'
+// @desct  create jobs
+// @access.  public
+
+router.delete("job/delete", (req, res, next) => {
+  const theUser = req.user;
+  if (theUser._id) {
+    const jobId = req.body.theId;
+    console.log(jobId);
+    Jobs.findByIdAndRemove(jobId)
+      .then(response => {
+        res.json(response);
+      })
+      .catch(err => {
+        res.json(err);
+      });
+  } else {
+    res.json("login");
   }
 });
 module.exports = router;
