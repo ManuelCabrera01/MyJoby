@@ -13,7 +13,7 @@ const userSchema = new Schema({
   imgPath: String,
   jobs: [{ type: Schema.Types.ObjectId, ref: "Jobs" }],
   originalName: String,
-  email: String
+  email: String``
 });
 
 const User = mongoose.model("User", userSchema);

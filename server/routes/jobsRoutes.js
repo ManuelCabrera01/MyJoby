@@ -12,7 +12,7 @@ router.get("/jobs", (req, res, next) => {
     // .populate("notes")
     .then(response => {
       console.log(response);
-      res.render("jobsV/jobsList", { theList: response });
+      res.json(response);
     })
     .catch(err => {
       next(err);
@@ -35,13 +35,13 @@ router.post("/jobs", (req, res, next) => {
       notes: req.body.notes
     })
       .then(response => {
-        res.redirect("/jobs");
+        res.json(response);
       })
       .catch(err => {
         next(err);
       });
   } else {
-    res.redirect("/login");
+    res.json("response");
   }
 });
 module.exports = router;
