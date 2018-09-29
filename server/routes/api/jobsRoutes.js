@@ -42,7 +42,23 @@ router.post("/job/add", (req, res, next) => {
 // @desct  update jobs
 // @access.  private
 router.put("/job/update/:id", () => {
-  Job.findByIdAndUpdate();
+  const theUser = req.user;
+  Job.findByIdAndUpdate(theUser._id, {
+    companyDescriptions: req.body.companyDescriptions,
+    position: req.body.position,
+    location: req.body.location,
+    url: req.body.url,
+    positionDescriptions: req.body.positionDescriptions,
+    applicationDate: req.body.applicationDate,
+    phoneNum: req.body.phoneNum,
+    notes: req.body.notes
+  })
+    .then(response => {
+      res.json(response);
+    })
+    .catch(err => {
+      res.json(err);
+    });
 });
 
 // @route  DELETE ‘/jobs/id'
