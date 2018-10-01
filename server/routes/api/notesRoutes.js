@@ -1,12 +1,19 @@
 const express = require("express");
 const router = express.Router();
 const Job = require("../../models/job");
+const Note = require("../../models/notes");
+
+// @route  POST ‘/note/add'
+// @desct add jobs
+// @access.  private
 
 router.post("/note/add", (req, res, next) => {
   const theUser = req.user;
+
   if (theUser._id) {
     Note.create({ content: req.body.content })
       .then(response => {
+        console.log(response);
         Job.findByIdAndUpdate(req.body._id, { $push: { notes: response } })
           .then(response => {
             console.log("user update -=-=", theUser);

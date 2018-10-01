@@ -3,6 +3,22 @@ const router = express.Router();
 const Job = require("../../models/job");
 const User = require("../../models/user");
 
+// @route  Get ‘/jobs'
+// @desct  desplay all jobs
+// @access.  private
+
+router.delete("/jobs/:id", (req, res, next) => {
+  Job.find()
+    .then(response => {
+      res.json({
+        message: `Task with ${req.params.id} is removed successfully.`
+      });
+    })
+    .catch(err => {
+      res.json(err);
+    });
+});
+
 // @route  POST ‘/jobs/add'
 // @desct  create jobs
 // @access.  public
@@ -38,7 +54,7 @@ router.post("/job/add", (req, res, next) => {
   }
 });
 
-// @route  PUT ‘/jobs/id'
+// @route  PUT ‘job/update/:id'
 // @desct  update jobs
 // @access.  private
 router.put("/job/update/:id", (req, res, next) => {
@@ -66,11 +82,6 @@ router.put("/job/update/:id", (req, res, next) => {
 // @access.  private
 
 router.delete("/jobs/:id", (req, res, next) => {
-  // if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-  //   res.status(400).json({ message: "Specified id is not valid" });
-  //   return;
-  // }
-
   Job.findByIdAndRemove(req.params.id)
     .then(() => {
       res.json({
