@@ -41,9 +41,9 @@ router.post("/job/add", (req, res, next) => {
 // @route  PUT ‘/jobs/id'
 // @desct  update jobs
 // @access.  private
-router.put("/job/update/:id", () => {
-  const theUser = req.user;
-  Job.findByIdAndUpdate(theUser._id, {
+router.put("/job/update/:id", (req, res, next) => {
+  theId = req.params.id;
+  Job.findByIdAndUpdate(theId, {
     companyDescriptions: req.body.companyDescriptions,
     position: req.body.position,
     location: req.body.location,
