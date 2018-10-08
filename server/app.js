@@ -115,7 +115,7 @@ app.use("/api", authRoutes);
 const notesRoutes = require("./routes/api/notesRoutes");
 app.use("/api", notesRoutes);
 
-const contactsRoutes = require("./routes/contactsRoutes");
+const contactsRoutes = require("./routes/api/contactsRoutes");
 app.use("/", contactsRoutes);
 
 const profileRoutes = require("./routes/api/profileRoutes");
