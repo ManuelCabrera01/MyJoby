@@ -1,7 +1,5 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const Notes = require("./notes");
-const Contacts = require("./contact");
 
 const jobSchema = new Schema({
   company: String,
@@ -12,7 +10,7 @@ const jobSchema = new Schema({
   positionDescriptions: String,
   applicationDate: { type: Date, default: Date.now },
   phoneNum: Number,
-  notes: [{ type: Schema.Types.ObjectId, ref: "notes" }]
+  notes: [{ type: Schema.Types.ObjectId, ref: "Notes" }]
 });
 
 const Job = mongoose.model("Job", jobSchema);

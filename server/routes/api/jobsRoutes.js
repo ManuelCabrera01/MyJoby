@@ -26,6 +26,7 @@ router.delete("/jobs/:id", (req, res, next) => {
 router.post("/job/add", (req, res, next) => {
   const theUser = req.user;
   if (theUser._id) {
+    console.log(Job);
     Job.create({
       companyDescriptions: req.body.companyDescriptions,
       position: req.body.position,

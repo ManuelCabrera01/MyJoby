@@ -109,11 +109,11 @@ app.use(
 const index = require("./routes/api/index");
 app.use("/api", index);
 
-const authRoutes = require("./routes/api/authRoutes");
-app.use("/api", authRoutes);
-
 const notesRoutes = require("./routes/api/notesRoutes");
 app.use("/api", notesRoutes);
+
+const authRoutes = require("./routes/api/authRoutes");
+app.use("/api", authRoutes);
 
 const contactsRoutes = require("./routes/api/contactsRoutes");
 app.use("/", contactsRoutes);

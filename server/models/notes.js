@@ -1,8 +1,10 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const NotesSchema = new Schema({
+const notesSchema = new Schema({
   content: String
 });
-const Note = mongoose.model("Notes", NotesSchema);
-module.export = Note;
+
+const Note = mongoose.model("Note", notesSchema);
+
+module.exports = Note;
