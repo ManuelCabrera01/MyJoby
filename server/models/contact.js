@@ -10,4 +10,5 @@ const contactScheman = new Schema({
   touch: Boolean
 });
 const Contact = mongoose.model("Contact", contactScheman);
-module.Export = Contact;
+
+module.exports = Contact;

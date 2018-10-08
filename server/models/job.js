@@ -1,10 +1,11 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const notes = require("./notes");
 
 const jobSchema = new Schema({
   company: String,
   companyDescriptions: String,
-  contacts: String,
+  contacts: [{ type: Schema.Types.ObjectId, ref: "Contacts" }],
   position: String,
   location: String,
   positionDescriptions: String,

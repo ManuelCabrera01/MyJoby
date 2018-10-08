@@ -14,9 +14,9 @@ router.post("/notes/add/:id", (req, res, next) => {
       content: req.body.content
     })
       .then(response => {
-        console.log(response);
+        // console.log(response);
         // console.log(Job);
-        // console.log(req.params.id);
+        console.log(req.params.id);
         Job.findByIdAndUpdate(req.params.id, {
           $push: { notes: response._id }
         })

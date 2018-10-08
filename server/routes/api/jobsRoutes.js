@@ -6,12 +6,11 @@ const User = require("../../models/user");
 // @route  Get ‘/jobs'
 // @desct  desplay all jobs
 // @access.  private
-
-router.delete("/jobs/:id", (req, res, next) => {
+router.get("/jobs", (req, res, next) => {
   Job.find()
     .then(response => {
       res.json({
-        message: `Task with ${req.params.id} is removed successfully.`
+        response
       });
     })
     .catch(err => {
@@ -22,7 +21,6 @@ router.delete("/jobs/:id", (req, res, next) => {
 // @route  POST ‘/jobs/add'
 // @desct  create jobs
 // @access.  public
-
 router.post("/job/add", (req, res, next) => {
   const theUser = req.user;
   if (theUser._id) {
@@ -34,6 +32,7 @@ router.post("/job/add", (req, res, next) => {
       url: req.body.url,
       positionDescriptions: req.body.positionDescriptions,
       applicationDate: req.body.applicationDate,
+      phoneNum: req.body.phoneNum,
       phoneNum: req.body.phoneNum,
       notes: req.body.notes
     })
@@ -81,7 +80,6 @@ router.put("/job/update/:id", (req, res, next) => {
 // @route  DELETE ‘/jobs/id'
 // @desct  delete jobs
 // @access.  private
-
 router.delete("/jobs/:id", (req, res, next) => {
   Job.findByIdAndRemove(req.params.id)
     .then(() => {
