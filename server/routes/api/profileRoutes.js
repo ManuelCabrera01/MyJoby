@@ -24,17 +24,15 @@ router.get("/profile", (req, res, next) => {
 // @route  PUT ‘/profile'
 // @desct  edit the info
 // @access.  private
-router.put("/profile/edit", (req, res, next) => {
+router.put("/profile/:id/edit", (req, res, next) => {
   const theid = req.params.id;
 
   User.findByIdAndUpdate(theid, {
-    username: username.req.body,
-    email: email.req.body,
-    resume: resume.req.body,
-    coverLetter: coverLetter.req.body,
-    followUpEmail: followUpEmail.req.body,
-    username: username.req.body,
-    password: hashPass.req.body
+    username: req.body.username,
+    email: req.body.email,
+    resume: req.body.resume,
+    coverLetter: req.body.coverLetter,
+    followUpEmail: req.body.followUpEmail
   })
     .then(response => {
       res.json(response);
