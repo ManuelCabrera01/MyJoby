@@ -27,13 +27,19 @@ router.post("/job/add", (req, res, next) => {
   const theUser = req.user;
   if (theUser._id) {
     console.log(Job);
+
+    const currentDate = new Date();
+    const day = currentDate.getDate();
+    const month = currentDate.getMonth() + 1;
+    const year = currentDate.getFullYear();
+
     Job.create({
       companyDescriptions: req.body.companyDescriptions,
       position: req.body.position,
       location: req.body.location,
       url: req.body.url,
       positionDescriptions: req.body.positionDescriptions,
-      applicationDate: req.body.applicationDate,
+      applicationDate: day + "/" + month + "/" + year,
       phoneNum: req.body.phoneNum,
       phoneNum: req.body.phoneNum,
       notes: req.body.notes
