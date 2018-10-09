@@ -2,4 +2,10 @@ body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
+
+  /* color to play with your app */
+  color: #16a1ab;
+  color: #f47622;
+  color: #aa5526;
+  color: #63cadf;
 }
