@@ -121,7 +121,7 @@ app.use("/api", notesRoutes);
 const authRoutes = require("./routes/api/authRoutes");
 app.use("/api", authRoutes);
 
-// const profileRoutes = require("./routes/api/profileRoutes");
-// app.use("/api", profileRoutes);
+const profileRoutes = require("./routes/api/profileRoutes");
+app.use("/api", profileRoutes);
 
 module.exports = app;

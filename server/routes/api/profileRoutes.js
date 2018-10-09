@@ -9,6 +9,7 @@ router.get("/profile", (req, res, next) => {
   const theUser = req.user;
   if (req.user._id) {
     User.findById(theUser._id)
+      .populate("jobs")
       .then(response => {
         res.json(response);
       })

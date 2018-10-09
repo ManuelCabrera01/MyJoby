@@ -5,13 +5,12 @@ const userSchema = new Schema({
   username: String,
   password: String,
   googleID: String,
-  resume: String,
   coverLetter: String,
   followUpEmail: String,
   thanksEmail: String,
   imgName: String,
   imgPath: String,
-  jobs: [{ type: Schema.Types.ObjectId, ref: "Jobs" }],
+  jobs: [{ type: Schema.Types.ObjectId, ref: "Job" }],
   originalName: String,
   email: String``
 });
