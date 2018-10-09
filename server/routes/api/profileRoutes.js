@@ -47,14 +47,17 @@ router.put("/profile/:id/edit", (req, res, next) => {
 // @route  DELETE ‘/profile'
 // @desct  edit the info
 // @access.  private
-router.delete("/profile/delete/id", (req, res, next) => {
+//
+router.delete("/profile/delete/:id", (req, res, next) => {
   const theid = req.params.id;
+  console.log(theid);
   User.findByIdAndRemove(theid)
     .then(response => {
       console.log(response);
       res.json(response);
     })
     .catch(err => {
+      console.log(err);
       next(err);
     });
 });
