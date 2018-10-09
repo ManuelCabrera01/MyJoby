@@ -9,6 +9,6 @@ const contactScheman = new Schema({
   comment: String,
   touch: Boolean
 });
-const Contact = mongoose.model("Contact", contactScheman);
+const Contacts = mongoose.model("Contacts", contactScheman);
 
-module.exports = Contact;
+module.exports = Contacts;

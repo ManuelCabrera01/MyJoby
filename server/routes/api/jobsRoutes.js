@@ -8,6 +8,8 @@ const User = require("../../models/user");
 // @access.  private
 router.get("/jobs", (req, res, next) => {
   Job.find()
+    .populate("contacts")
+    .populate("notes")
     .then(response => {
       res.json({
         response

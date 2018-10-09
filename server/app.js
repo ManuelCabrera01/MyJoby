@@ -109,19 +109,19 @@ app.use(
 const index = require("./routes/api/index");
 app.use("/api", index);
 
+const jobsRoutes = require("./routes/api/jobsRoutes");
+app.use("/api", jobsRoutes);
+
+const contactsRoutes = require("./routes/api/contactsRoutes");
+app.use("/api", contactsRoutes);
+
 const notesRoutes = require("./routes/api/notesRoutes");
 app.use("/api", notesRoutes);
 
 const authRoutes = require("./routes/api/authRoutes");
 app.use("/api", authRoutes);
 
-const contactsRoutes = require("./routes/api/contactsRoutes");
-app.use("/", contactsRoutes);
-
-const profileRoutes = require("./routes/api/profileRoutes");
-app.use("/api", profileRoutes);
-
-const jobsRoutes = require("./routes/api/jobsRoutes");
-app.use("/api", jobsRoutes);
+// const profileRoutes = require("./routes/api/profileRoutes");
+// app.use("/api", profileRoutes);
 
 module.exports = app;
